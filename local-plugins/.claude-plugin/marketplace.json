@@ -1,0 +1,19 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "local-custom-plugins",
+  "description": "로컬 커스텀 플러그인 마켓플레이스",
+  "owner": {
+    "name": "johyeongjun"
+  },
+  "plugins": [
+    {
+      "name": "curriculum-plugin",
+      "description": "학습 커리큘럼 생성 스킬 - 기술명을 지정하면 HTML 기반의 포괄적인 학습 커리큘럼을 생성합니다",
+      "author": {
+        "name": "johyeongjun"
+      },
+      "source": "./curriculum-plugin",
+      "category": "learning"
+    }
+  ]
+}

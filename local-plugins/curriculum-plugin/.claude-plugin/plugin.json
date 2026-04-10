@@ -1,0 +1,8 @@
+{
+  "name": "curriculum-plugin",
+  "version": "1.0.0",
+  "description": "학습 커리큘럼 생성 스킬 - 기술명을 지정하면 HTML 기반의 포괄적인 학습 커리큘럼을 생성합니다",
+  "author": {
+    "name": "johyeongjun"
+  }
+}

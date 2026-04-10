@@ -1,0 +1,30 @@
+# ===== 허용 목록 방식 (기본 전부 제외, 동기화 대상만 허용) =====
+
+# 기본: 모든 파일 제외
+*
+
+# 동기화 대상 허용
+!.gitignore
+!CLAUDE.md
+!settings.json
+!settings.local.json
+!PLUGINS.md
+!README.md
+
+# 디렉토리 허용 (하위 파일도 포함)
+!agents/
+!agents/**
+!skills/
+!skills/**
+!commands/
+!commands/**
+!scripts/
+!scripts/**
+!local-plugins/
+!local-plugins/**
+
+
+# 기타
+.DS_Store
+*.zip
+*.bak
