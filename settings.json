@@ -1,17 +1,4 @@
 {
-  "enabledPlugins": {
-    "curriculum-plugin@local-custom-plugins": true,
-    "skill-creator@claude-plugins-official": true
-  },
-  "extraKnownMarketplaces": {
-    "local-custom-plugins": {
-      "source": {
-        "source": "directory",
-        "path": "/Users/johyeongjun/.claude/local-plugins"
-      }
-    }
-  },
-  "skipDangerousModePermissionPrompt": true,
   "hooks": {
     "SessionStart": [
       {
@@ -35,5 +22,19 @@
         ]
       }
     ]
-  }
+  },
+  "enabledPlugins": {
+    "curriculum-plugin@local-custom-plugins": true,
+    "skill-creator@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "local-custom-plugins": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/johyeongjun/.claude/local-plugins"
+      }
+    }
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "effortLevel": "xhigh"
 }
