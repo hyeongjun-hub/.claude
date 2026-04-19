@@ -35,6 +35,6 @@
       }
     }
   },
-  "skipDangerousModePermissionPrompt": true,
-  "effortLevel": "xhigh"
+  "effortLevel": "xhigh",
+  "skipDangerousModePermissionPrompt": true
 }
