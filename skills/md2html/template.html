@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{TITLE}}</title>
+  <link rel="icon" type="image/svg+xml" href="/gemini_html/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ── 의도: 모든 AI 기본값에 반(反)하는 템플릿 ──
+       ✗ 보라/인디고 그라디언트 없음
+       ✗ Inter 단독 없음 (Playfair Display 제목)
+       ✗ 카드 중첩 없음 (구분선+여백으로 계층)
+       ✗ 순흑/순백 없음 (#0E0E0B + #F7F7F4)
+       ✗ bounce easing 없음
+       ✓ 최소 1.5× 폰트 계단
+       ✓ 단색 강조 (잉크 검정)
+       ✓ clamp() 반응형 타이포
+       ✓ 44px 터치 영역
+       ✓ prefers-reduced-motion
+    ── */
+
+    :root {
+      --ink:     #0E0E0B;
+      --ink-2:   #3A3A36;
+      --ink-3:   #6B6B64;
+      --ink-4:   #A8A8A0;
+      --paper:   #F7F7F4;
+      --paper-2: #EFEFEB;
+      --white:   #FFFFFF;
+      --rule:    #D8D8D0;
+      --accent:  #0E0E0B;  /* 단일 강조 = 잉크 그 자체 */
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'Inter', system-ui, sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Masthead ── */
+    .masthead {
+      border-bottom: 3px solid var(--ink);
+      padding: 20px 40px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .masthead-name {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .masthead-meta {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-4);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ── Lead / Hero ── */
+    .lead {
+      border-bottom: 1px solid var(--rule);
+      padding: 80px 40px 64px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .lead-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .lead-eyebrow::before { content: '//'; color: var(--ink-4); }
+    .lead h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-bottom: 28px;
+      max-width: 900px;
+    }
+    .lead h1 em {
+      font-style: italic;
+      font-weight: 400;
+    }
+    .lead-deck {
+      font-size: 19px;
+      color: var(--ink-2);
+      max-width: 640px;
+      line-height: 1.65;
+      border-left: 3px solid var(--ink);
+      padding-left: 20px;
+      margin-bottom: 40px;
+    }
+    .lead-byline {
+      font-size: 13px;
+      color: var(--ink-4);
+      font-family: var(--font-mono);
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .lead-byline span::before { content: '— '; }
+
+    /* ── Newspaper grid body ── */
+    .page-body {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* ── Section — hierarchy via rules, not cards ── */
+    .doc-section {
+      padding: 56px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .doc-section:last-child { border-bottom: none; }
+
+    .section-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-4);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .section-heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+    .section-lead {
+      font-size: 16px;
+      color: var(--ink-3);
+      max-width: 600px;
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+
+    /* ── Two-column rule layout (no cards) ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+    @media (max-width: 680px) { .two-col { grid-template-columns: 1fr; } }
+    .col-item {
+      padding: 28px;
+      border: 1px solid var(--rule);
+      border-collapse: collapse;
+    }
+    .col-item + .col-item { border-left: none; }
+    @media (max-width: 680px) { .col-item + .col-item { border-left: 1px solid var(--rule); border-top: none; } }
+    .col-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-4);
+      margin-bottom: 10px;
+      font-family: var(--font-mono);
+    }
+    .col-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--ink); }
+    .col-body { font-size: 14px; color: var(--ink-3); line-height: 1.65; }
+
+    /* ── Pull quote ── */
+    .pullquote {
+      border-top: 3px solid var(--ink);
+      border-bottom: 1px solid var(--rule);
+      padding: 32px 0;
+      margin: 40px 0;
+    }
+    .pullquote p {
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--ink);
+    }
+    .pullquote cite {
+      display: block;
+      margin-top: 12px;
+      font-size: 13px;
+      font-family: var(--font-mono);
+      color: var(--ink-4);
+      font-style: normal;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ── Table ── */
+    .table-wrap { overflow-x: auto; margin-top: 24px; }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      border-bottom: 2px solid var(--ink);
+      padding: 10px 16px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      font-family: var(--font-mono);
+    }
+    td { border-bottom: 1px solid var(--rule); padding: 14px 16px; font-size: 14px; color: var(--ink-2); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--paper-2); }
+
+    /* ── Code ── */
+    pre.code {
+      background: var(--ink);
+      color: #E8E8E0;
+      border-radius: 4px;
+      padding: 20px 24px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.7;
+      overflow-x: auto;
+      white-space: pre;
+      margin: 20px 0;
+    }
+    code.inline {
+      background: var(--paper-2);
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      padding: 1px 6px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink-2);
+    }
+
+    /* ── Fact strip (numbers) ── */
+    .facts { display: flex; gap: 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .fact { flex: 1; padding: 24px 28px; border-right: 1px solid var(--rule); }
+    .fact:last-child { border-right: none; }
+    .fact-num {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .fact-label { font-size: 13px; color: var(--ink-4); font-family: var(--font-mono); }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 3px solid var(--ink);
+      padding: 28px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      color: var(--ink-4);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 640px) {
+      .masthead, .lead, footer { padding-left: 16px; padding-right: 16px; }
+      .page-body { padding: 0 16px; }
+      .facts { flex-direction: column; }
+      .fact { border-right: none; border-bottom: 1px solid var(--rule); }
+      .fact:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <span class="masthead-name">{{HEADING}}</span>
+  <span class="masthead-meta">{{DATE}} &nbsp;·&nbsp; {{BADGE}}</span>
+</header>
+
+<!-- LEAD -->
+<div class="lead">
+  <div class="lead-eyebrow">{{BADGE}}</div>
+  <h1>{{HEADING}}<br><em>{{HEADING_EM}}</em></h1>
+  <p class="lead-deck">{{DESCRIPTION}}</p>
+  <div class="lead-byline">
+    <span>작성일: {{DATE}}</span>
+    <span>출처: 공식 문서 기반</span>
+  </div>
+</div>
+
+<div class="page-body">
+
+  <!-- FACT STRIP -->
+  <div class="facts" style="margin: 40px 0;">
+    <div class="fact"><div class="fact-num">숫자</div><div class="fact-label">지표 레이블 1</div></div>
+    <div class="fact"><div class="fact-num">숫자</div><div class="fact-label">지표 레이블 2</div></div>
+    <div class="fact"><div class="fact-num">숫자</div><div class="fact-label">지표 레이블 3</div></div>
+    <div class="fact"><div class="fact-num">숫자</div><div class="fact-label">지표 레이블 4</div></div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <section class="doc-section">
+    <div class="section-num">01</div>
+    <h2 class="section-heading">섹션 제목을 입력하세요</h2>
+    <p class="section-lead">섹션 설명. 구분선과 여백이 계층을 만듭니다 — 카드 없이.</p>
+
+    <div class="two-col">
+      <div class="col-item">
+        <div class="col-label">포인트 A</div>
+        <div class="col-title">제목을 입력합니다</div>
+        <div class="col-body">내용을 입력합니다. 카드 중첩 없이 단순 구조로 정보를 전달합니다.</div>
+      </div>
+      <div class="col-item">
+        <div class="col-label">포인트 B</div>
+        <div class="col-title">제목을 입력합니다</div>
+        <div class="col-body">내용을 입력합니다. 카드 중첩 없이 단순 구조로 정보를 전달합니다.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section class="doc-section">
+    <div class="section-num">02</div>
+    <h2 class="section-heading">인용과 강조</h2>
+
+    <div class="pullquote">
+      <p>"핵심 메시지를 한 문장으로. 폰트 계층이 강조를 만들어냅니다."</p>
+      <cite>출처 또는 작성자</cite>
+    </div>
+
+    <p style="font-size:15px;color:var(--ink-2);max-width:680px;line-height:1.75;">
+      본문을 입력합니다. <code class="inline">inline code</code>는 이렇게 표시됩니다.
+      내용을 충분히 채워 넣습니다.
+    </p>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section class="doc-section">
+    <div class="section-num">03</div>
+    <h2 class="section-heading">비교 및 데이터</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th>값 A</th>
+            <th>값 B</th>
+            <th>비고</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>항목 1</td><td>값을 입력</td><td>값을 입력</td><td>설명</td>
+          </tr>
+          <tr>
+            <td>항목 2</td><td>값을 입력</td><td>값을 입력</td><td>설명</td>
+          </tr>
+          <tr>
+            <td>항목 3</td><td>값을 입력</td><td>값을 입력</td><td>설명</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 4: Code -->
+  <section class="doc-section">
+    <div class="section-num">04</div>
+    <h2 class="section-heading">코드 및 명령어</h2>
+
+    <pre class="code">코드를 입력합니다
+두 번째 줄
+세 번째 줄</pre>
+  </section>
+
+</div><!-- /page-body -->
+
+<!-- FOOTER -->
+<footer>
+  <span>{{TITLE}}</span>
+  <span>{{DATE}}</span>
+</footer>
+
+</body>
+</html>
